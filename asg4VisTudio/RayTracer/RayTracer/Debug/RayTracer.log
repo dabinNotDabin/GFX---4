@@ -1,0 +1,28 @@
+﻿  WritePixels.cpp
+  Scene.cpp
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(72): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(73): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(74): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(79): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(80): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(81): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(86): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(87): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(88): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(93): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(94): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(95): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(103): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(104): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(105): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(110): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(112): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(119): warning C4305: 'argument': truncation from 'double' to 'float'
+  RayTracer.cpp
+  Object.cpp
+  Geometry.cpp
+  Color.cpp
+c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\color.cpp(17): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+  RayTracer.vcxproj -> C:\UofC\CPSC453\asg4VisTudio\RayTracer\Debug\RayTracer.exe
+  RayTracer.vcxproj -> C:\UofC\CPSC453\asg4VisTudio\RayTracer\Debug\RayTracer.pdb (Partial PDB)
