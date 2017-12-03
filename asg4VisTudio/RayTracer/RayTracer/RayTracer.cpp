@@ -17,10 +17,13 @@ Object * RayTracer::intersect(Ray r){
   Point inter;
   //Initialize min to infinite point;
   Point min = Point::Infinite();
-  while((current = scene->getNextObject()) != NULL){
+  while((current = scene->getNextObject()) != NULL)
+  {
     inter = current->getIntersection(r);
-    if((inter - r.origin).length() > 1E-6){
-      if((inter-r.origin).length()  < (min-r.origin).length()){
+    if((inter - r.origin).length() > 1E-6)
+	{
+      if((inter-r.origin).length()  < (min-r.origin).length())
+	  {
         min = inter;
         minObject = current;
       }
@@ -41,20 +44,21 @@ Color RayTracer::trace(Ray r, int depth)
 	else
 		return rad;
 
-	if (depth >= maxdepth)
-		return Phong(obj->getNormal(intersection), intersection, r, obj);
+	Point normal = obj->getNormal(intersection);
 
-	rad = Phong(obj->getNormal(intersection), intersection, r, obj);
+	if (depth >= maxdepth)
+		return Phong(normal, intersection, r, obj);
+
+	rad = Phong(normal, intersection, r, obj);
 
 	if (obj->getMaterial()->type == REFLECTIVE)
 	{
-		r = r.reflect(obj->getNormal(intersection), intersection);
+		r = r.reflect(normal, intersection);
 		rad = rad + trace(r, depth + 1);
 	}
 	else if (obj->getMaterial()->type == REFRACTIVE)
 	{
-		//Kr * reflectionColor + (1 - Kr) * refractionColor;
-		r = r.refract(obj->getNormal(intersection), intersection, 1.0, obj->getMaterial()->kt);
+		r = r.refract(normal, intersection, 1.0, obj->getMaterial()->kt);
 		rad = rad + trace(r, depth + 1);
 	}
 
@@ -71,9 +75,9 @@ Color RayTracer::Phong(Point normal, Point intersection, Ray ray, Object * obj)
 	Color lightVal = mat->ambient;
 
 	if (obj->id == 10)
-		lightVal = mat->getAmbient(intersection);
+		lightVal = lightVal + mat->getDiffuse(intersection);
 	if (obj->id == 1)
-		lightVal = mat->getAmbient(intersection);
+		lightVal = lightVal + mat->getDiffuse(intersection);
 
 
     normal.normalize();
@@ -93,18 +97,22 @@ Color RayTracer::Phong(Point normal, Point intersection, Ray ray, Object * obj)
 		if (o == nullptr || o->getMaterial()->type == REFRACTIVE)
 		{
 			double refractiveDull = 1.0;
-			//if (o != nullptr)
-			//	refractiveDull = o->getMaterial()->kt;
+			if (o != nullptr)
+				refractiveDull = o->getMaterial()->kt;
 
-			diffuseIntensity = min (abs((lightDir * normal)) * mat->kd * refractiveDull, 1.0);
+//			diffuseIntensity = min (abs((lightDir * normal)) * mat->kd * refractiveDull, 1.0);
+
+			diffuseIntensity = max((lightDir * normal) * mat->kd * refractiveDull, 0.0);
 
 			Point viewDir = *(scene->camera) - intersection;
 			viewDir.normalize();
 			Point halfAngle = (lightDir + viewDir);
 			halfAngle.normalize();
+			
+			double cos = halfAngle * normal;
 
 			double specWeight = min(abs(halfAngle * normal), 1.0);
-			specularIntensity = pow(specWeight, 100.0) * mat->kr;
+			specularIntensity = pow(specWeight, 75.0) * mat->kr;
 		}
 
 		double lightScalar =  1.0 / (double)(scene->lights.size());

@@ -59,8 +59,8 @@ void Scene::setCamera(Point * c){
 Ray Scene::makeRay(double xo, double yo){
     // calculate point on image plane
 
-    double normx = (xo/H) - 0.5 - recip;
-    double normy = (yo/H) - 0.5;
+	double normx = (xo / H) - 0.5 -recip;
+	double normy = (yo / H) - 0.5;
 
     Point po = (*u)*normx + (*v)*normy + (* camera) + (*n);
     
@@ -107,8 +107,8 @@ Scene * Scene::initTestScene(int W, int H, double FOV, Point * lookat, Point * p
 	diffuseBlue->kr = 1.0;
 	diffuseBlue->kd = 0.8;
 	diffuseBlue->kt = 0.0;
-	diffuseBlue->ambient = Color(0.4, 0.4, 0.6, 1.0);
-	diffuseBlue->diffuse = Color(0.6, 0.6, 0.6, 1.0);
+	diffuseBlue->ambient = Color(0.1, 0.1, 0.3, 1.0);
+	diffuseBlue->diffuse = Color(0.6, 0.6, 0.8, 1.0);
 	diffuseBlue->specular = Color(0.9, 0.9, 0.9, 1.0);
 
 
@@ -118,7 +118,7 @@ Scene * Scene::initTestScene(int W, int H, double FOV, Point * lookat, Point * p
 	diffuseGreen->kd = 0.8;
 	diffuseGreen->kt = 0.0;
 	diffuseGreen->ambient = Color(0.5, 0.7, 0.5, 1.0);
-	diffuseGreen->diffuse = Color(0.9, 0.9, 0.9, 1.0);
+	diffuseGreen->diffuse = Color(0.5, 0.6, 0.5, 1.0);
 	diffuseGreen->specular = Color(1.0, 1.0, 1.0, 1.0);
 
 
@@ -132,14 +132,14 @@ Scene * Scene::initTestScene(int W, int H, double FOV, Point * lookat, Point * p
 	diffusePurple->specular = Color(0.9, 0.9, 0.9, 1.0);
 
 
-	Material * diffuseWhite = new Material();
-	diffuseWhite->type = DIFFUSE;
-	diffuseWhite->kr = 1.0;
-	diffuseWhite->kd = 0.6;
-	diffuseWhite->kt = 0.0;
-	diffuseWhite->ambient = Color(0.6, 0.6, 0.6, 1.0);
-	diffuseWhite->diffuse = Color(0.6, 0.6, 0.6, 1.0);
-	diffuseWhite->specular = Color(0.6, 0.6, 0.6, 1.0);
+	Material * diffuseBlack = new Material();
+	diffuseBlack->type = DIFFUSE;
+	diffuseBlack->kr = 1.0;
+	diffuseBlack->kd = 0.3;
+	diffuseBlack->kt = 0.0;
+	diffuseBlack->ambient = Color(0.2, 0.2, 0.2, 1.0);
+	diffuseBlack->diffuse = Color(0.3, 0.3, 0.3, 1.0);
+	diffuseBlack->specular = Color(0.6, 0.6, 0.6, 1.0);
 
 
 	Material * translucent = new Material();
@@ -156,7 +156,7 @@ Scene * Scene::initTestScene(int W, int H, double FOV, Point * lookat, Point * p
 	translucentBlue->type = REFRACTIVE;
 	translucentBlue->kr = 0.1;
 	translucentBlue->kd = 0.2;
-	translucentBlue->kt = 0.9;
+	translucentBlue->kt = 0.6;
 	translucentBlue->ambient = Color(0.1, 0.1, 0.3, 1.0);
 	translucentBlue->diffuse = Color(0.0, 0.0, 0.0, 1.0);
 	translucentBlue->specular = Color(0.3, 0.3, 0.3, 1.0);
@@ -200,7 +200,9 @@ Scene * Scene::initTestScene(int W, int H, double FOV, Point * lookat, Point * p
     t2 = new Triangle(p3,p8,p7,n3);
     t1->setMaterial(diffusePurple);
     t2->setMaterial(diffusePurple);
-    ret->addObject(t1);
+	t1->id = 2;
+	t2->id = 2;
+	ret->addObject(t1);
     ret->addObject(t2);
 
     // Add in back square
@@ -214,8 +216,8 @@ Scene * Scene::initTestScene(int W, int H, double FOV, Point * lookat, Point * p
     // Add in right square
     t1 = new Triangle(p4,p2,p5,n4);
     t2 = new Triangle(p4,p5,p6,n4);
-    t1->setMaterial(diffuseWhite);
-    t2->setMaterial(diffuseWhite);
+    t1->setMaterial(diffuseBlack);
+    t2->setMaterial(diffuseBlack);
 	t1->id = 1;
 	t2->id = 1;
 	ret->addObject(t1);
@@ -265,16 +267,16 @@ Scene * Scene::initTestScene(int W, int H, double FOV, Point * lookat, Point * p
     ret->addObject(t2);
     
     // front
-    t1 = new Triangle(v9,v10,v4,no4);
-    t2 = new Triangle(v9,v4,v5,no4);
+    t1 = new Triangle(v9,v10,v4,no2);
+    t2 = new Triangle(v9,v4,v5,no2);
     t1->setMaterial(translucentBlue);
     t2->setMaterial(translucentBlue);
     ret->addObject(t1);
     ret->addObject(t2);
     
     // left
-    t1 = new Triangle(v11,v2,v10,no4);
-    t2 = new Triangle(v11,v2,v9,no4);
+    t1 = new Triangle(v11,v2,v10,no3);
+    t2 = new Triangle(v11,v2,v9,no3);
     t1->setMaterial(translucentBlue);
     t2->setMaterial(translucentBlue);
     ret->addObject(t1);
@@ -282,8 +284,8 @@ Scene * Scene::initTestScene(int W, int H, double FOV, Point * lookat, Point * p
         
    
     // back
-    t1 = new Triangle(v8,v7,v2,no4);
-    t2 = new Triangle(v8,v2,v11,no4);
+    t1 = new Triangle(v8,v7,v2,no5);
+    t2 = new Triangle(v8,v2,v11,no5);
     t1->setMaterial(translucentBlue);
     t2->setMaterial(translucentBlue);
     ret->addObject(t1);
@@ -307,6 +309,7 @@ Scene * Scene::initCustomScene(int W, int H, double FOV, Point * lookat, Point *
 
 	ret->addLight(Point(-1000.0, 1500.0, -5000.0));
 	ret->addLight(Point(4000.0, 2000.0, -5000.0));
+	ret->addLight(Point(0.0, 4000.0, 500.0));
 
 	//	ret->setCamera(new Point(1500, 1000, -3000));
 	//	ret->setCamera(new Point(1500, 1000, -3000));
@@ -317,39 +320,30 @@ Scene * Scene::initCustomScene(int W, int H, double FOV, Point * lookat, Point *
 
 	Material * perfectMirror = new Material();
 	perfectMirror->type = REFLECTIVE;
-	perfectMirror->kr = 0.7;
+	perfectMirror->kr = 0.9;
 	perfectMirror->kd = 0.0;
 	perfectMirror->kt = 0.0;
 	perfectMirror->ambient = Color(0.0, 0.0, 0.0, 1.0);
 	perfectMirror->diffuse = Color(0.0, 0.0, 0.0, 1.0);
-	perfectMirror->specular = Color(0.5, 0.5, 0.5, 1.0);
+	perfectMirror->specular = Color(1.0, 1.0, 1.0, 1.0);
 
-	Material * mirror = new Material();
-	mirror->type = REFLECTIVE;
-	mirror->kr = 1.0;
-	mirror->kd = 0.1;
-	mirror->kt = 0.0;
-	mirror->ambient = Color(0.5, 0.5, 0.8, 1.0);
-	mirror->diffuse = Color(0.5, 0.5, 0.5, 1.0);
-	mirror->specular = Color(0.6, 0.6, 0.7, 1.0);
-	
 	Material * diffuseBlue = new Material();
 	diffuseBlue->type = DIFFUSE;
 	diffuseBlue->kr = 0.9;
-	diffuseBlue->kd = 0.8;
+	diffuseBlue->kd = 0.6;
 	diffuseBlue->kt = 0.0;
 	diffuseBlue->ambient = Color(0.4, 0.4, 0.6, 1.0);
-	diffuseBlue->diffuse = Color(0.6, 0.6, 0.6, 1.0);
-	diffuseBlue->specular = Color(0.6, 0.6, 0.6, 1.0);
+	diffuseBlue->diffuse = Color(0.8, 0.8, 0.8, 1.0);
+	diffuseBlue->specular = Color(1.0, 1.0, 1.0, 1.0);
 	
 	Material * diffuseGreen = new Material();
 	diffuseGreen->type = DIFFUSE;
 	diffuseGreen->kr = 0.9;
-	diffuseGreen->kd = 0.8;
+	diffuseGreen->kd = 0.7;
 	diffuseGreen->kt = 0.0;
-	diffuseGreen->ambient = Color(0.5, 0.7, 0.5, 1.0);
+	diffuseGreen->ambient = Color(0.4, 0.6, 0.4, 1.0);
 	diffuseGreen->diffuse = Color(0.6, 0.6, 0.6, 1.0);
-	diffuseGreen->specular = Color(0.6, 0.6, 0.6, 1.0);
+	diffuseGreen->specular = Color(1.0, 1.0, 1.0, 1.0);
 	
 	Material * diffusePurple = new Material();
 	diffusePurple->type = DIFFUSE;
@@ -360,15 +354,15 @@ Scene * Scene::initCustomScene(int W, int H, double FOV, Point * lookat, Point *
 	diffusePurple->diffuse = Color(0.6, 0.6, 0.6, 1.0);
 	diffusePurple->specular = Color(0.8, 0.8, 0.8, 1.0);
 	
-	Material * diffuseWhite = new Material();
-	diffuseWhite->type = DIFFUSE;
-	diffuseWhite->kr = 0.8;
-	diffuseWhite->kd = 0.6;
-	diffuseWhite->kt = 0.0;
-	diffuseWhite->ambient = Color(0.6, 0.6, 0.6, 1.0);
-	diffuseWhite->diffuse = Color(0.6, 0.6, 0.6, 1.0);
-	diffuseWhite->specular = Color(0.6, 0.6, 0.6, 1.0);
-	
+	Material * diffuseBlack = new Material();
+	diffuseBlack->type = DIFFUSE;
+	diffuseBlack->kr = 1.0;
+	diffuseBlack->kd = 0.2;
+	diffuseBlack->kt = 0.0;
+	diffuseBlack->ambient = Color(0.1, 0.1, 0.1, 1.0);
+	diffuseBlack->diffuse = Color(0.2, 0.2, 0.2, 1.0);
+	diffuseBlack->specular = Color(0.6, 0.6, 0.6, 1.0);
+
 	Material * translucent = new Material();
 	translucent->type = REFRACTIVE;
 	translucent->kr = 0.0;
@@ -410,10 +404,10 @@ Scene * Scene::initCustomScene(int W, int H, double FOV, Point * lookat, Point *
 	n1 = Point(0.0, 1.0, 0.0);
 
 	// Add in floor
-	t1 = new Triangle(p1, p2, p3, n1);
+	t1 = new Triangle(p3, p2, p1, n1);
 	t2 = new Triangle(p2, p3, p4, n1);
-	t1->setMaterial(diffuseBlue);
-	t2->setMaterial(diffuseBlue);
+	t1->setMaterial(diffuseBlack);
+	t2->setMaterial(diffuseBlack);
 	t1->id = 10;
 	t2->id = 10;
 	t1->name = "floor";
@@ -433,7 +427,7 @@ Scene * Scene::initCustomScene(int W, int H, double FOV, Point * lookat, Point *
 	n1 = (p2 - p1).cross(p3 - p1);
 	n1.normalize();
 
-	n2 = Point(0.0, 0.0, 1.0);
+	n2 = Point(0.0, 0.0, -1.0);
 
 	// Add Far Mirror
 	t1 = new Triangle(p1, p2, p3, n1);
@@ -451,7 +445,7 @@ Scene * Scene::initCustomScene(int W, int H, double FOV, Point * lookat, Point *
 	p4 = Point(+2000, +2000, 2000);	// Top Right
 
 									// Add Far purple wall
-	t1 = new Triangle(p1, p2, p3, n2);
+	t1 = new Triangle(p3, p2, p1, n2);
 	t2 = new Triangle(p2, p3, p4, n2);
 	t1->setMaterial(diffusePurple);
 	t2->setMaterial(diffusePurple);

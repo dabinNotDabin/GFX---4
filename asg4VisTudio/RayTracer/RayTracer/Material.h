@@ -26,14 +26,16 @@ public:
         kt = 0.0;
         kd = 0.0;
     }
-    virtual Color getAmbient(Point p)
+    virtual Color getAmbient(Point p){return ambient;}
+
+	Color getDiffuse(Point p)
 	{
 		double u = p.x + 1000;
 		double v = p.z + 1000;
 
 		u /= 400.0;
 		v /= 400.0;
-		
+
 		int intPartU = (int)u;
 		int intPartV = (int)v;
 
@@ -43,7 +45,7 @@ public:
 
 		Color black(0.0, 0.0, 0.0, 0.0);
 		Color white(0.0, 0.8, 0.8, 0.0);
-		
+
 		if (u < 0.5)
 		{
 			if (v < 0.5)
@@ -60,7 +62,7 @@ public:
 		}
 	}
 
-	Color getDiffuse(Point p){return diffuse;}
+
     Color getSpecular(Point p){return specular;}
     void setAmbient(Color c){ambient = c;}
     void setSpecular(Color c){specular = c;}
