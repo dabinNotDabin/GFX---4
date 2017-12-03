@@ -1,11 +1,12 @@
 #include "Scene.h"
 
+
 void Scene::startIteration(){
     indexO = 0;
 }
 // N is width/height
 // the field of view is specified in degrees.
-Scene::Scene(Point * vo, Point * no, double f, int No){
+Scene::Scene(Point * vo, Point * no, double f, int Wo, int Ho){
     v = vo;
     n = no;
     fov = f*acos(-1)/180.0;
@@ -16,7 +17,14 @@ Scene::Scene(Point * vo, Point * no, double f, int No){
     uo.normalize();
     u = new Point(uo.x,uo.y,uo.z);
     C = Point(0,0,0);
-    N = No;
+    W = Wo;
+	H = Ho;
+
+	AR = (double)H / (double)W;
+	recip = (1.0 - AR);
+
+	recip = (abs(W - H) / 2.0) / W;
+	
 
     indexO = 0;
     indexL = 0;
@@ -50,9 +58,10 @@ void Scene::setCamera(Point * c){
 // the width and height of the image plane are both 1. Please see the constructor above.
 Ray Scene::makeRay(double xo, double yo){
     // calculate point on image plane
-    double normx = (xo/N)-0.5;
-    double normy = (yo/N)-0.5;
-    
+
+    double normx = (xo/H) - 0.5 - recip;
+    double normy = (yo/H) - 0.5;
+
     Point po = (*u)*normx + (*v)*normy + (* camera) + (*n);
     
     Ray r = Ray(po, po - (*camera));
@@ -61,64 +70,102 @@ Ray Scene::makeRay(double xo, double yo){
 
 // A test scene based on description handed out with the assignment.
 // Please modify material properties as necessary to test your ray tracer.
-Scene * Scene::initTestScene(int N){
+Scene * Scene::initTestScene(int W, int H, double FOV, Point * lookat, Point * position){
 
-    // make new scene with up vector, direction vector and fov
-    Scene * ret = new Scene(new Point(0,1.0,0),new Point(0,0,1.0),55.0,N);  
-    // Add in sphere
-    Material * bottomBig = new Material();
-    bottomBig->type = DIFFUSE;
-    bottomBig->kr = 0.03;
-    bottomBig->ambient = Color (0.5, 0.5, 0.7, 1.0);
-    bottomBig->diffuse = Color (0.6, 0.6, 0.6, 1.0);
-    bottomBig->specular = Color(0.2, 0.2, 0.2, 1.0);
 
-    Material * leftBig = new Material();
-    leftBig->type = DIFFUSE;
-    leftBig->kr = 0.03;
-    leftBig->ambient = Color (0.5, 0.7, 0.5, 1.0);
-    leftBig->diffuse = Color (0.6, 0.6, 0.6, 1.0);
-    leftBig->specular = Color(0.2, 0.2, 0.2, 1.0);
+	//// Scene
 
-    Material * rightBig = new Material();
-    rightBig->type = DIFFUSE;
-    rightBig->kr = 0.03;
-    rightBig->ambient = Color (0.4, 0.4, 0.6, 1.0);
-    rightBig->diffuse = Color (0.6, 0.6, 0.6, 1.0);
-    rightBig->specular = Color(0.2, 0.2, 0.2, 1.0);
+	//// make new scene with up vector, direction vector and fov
+	Scene * ret = new Scene(new Point(0.0, 1.0, 0), new Point(0.0, 0.0, 1.0), FOV, W, H);
 
-    Material * backBig = new Material();
-    backBig->type = DIFFUSE;
-    backBig->kr = 0.03;
-    backBig->ambient = Color (0.6, 0.8, 0.6, 1.0);
-    backBig->diffuse = Color (0.6, 0.6, 0.6, 1.0);
-    backBig->specular = Color(0.2, 0.2, 0.2, 1.0);
+	// Material Properties
+
+	Material * perfectMirror = new Material();
+	perfectMirror->type = REFLECTIVE;
+	perfectMirror->kr = 0.9;
+	perfectMirror->kd = 0.5;
+	perfectMirror->kt = 0.0;
+	perfectMirror->ambient = Color(0.0, 0.0, 0.0, 1.0);
+	perfectMirror->diffuse = Color(0.5, 0.5, 0.5, 1.0);
+	perfectMirror->specular = Color(0.8, 0.8, 0.8, 1.0);
 
 
 
-    
-    Material * test1 = new Material();
-    test1->type = REFRACTIVE;
-    test1->kt = 0.6;
-    test1->ambient = Color (0.3, 0.3, 0.3, 1.0);
-    test1->diffuse = Color (0.8, 0.8, 0.8, 1.0);
-    test1->specular = Color(0.2, 0.2, 0.2, 1.0);
-    
-    Material * test2 = new Material();
-    test2->type = DIFFUSE;
-    test2->kr = 0.25;
-    test2->ambient = Color (0.4, 0.2, 0.2, 1.0);
-    test2->diffuse = Color (0.5, 0.5, 0.5, 1.0);
-    test2->specular = Color(0.2, 0.2, 0.2, 1.0);
+	Material * mirror = new Material();
+	mirror->type = REFLECTIVE;
+	mirror->kr = 1.0;
+	mirror->kd = 0.1;
+	mirror->kt = 0.0;
+	mirror->ambient = Color(0.0, 0.0, 0.1, 1.0);
+	mirror->diffuse = Color(0.3, 0.3, 0.3, 1.0);
+	mirror->specular = Color(0.6, 0.6, 0.7, 1.0);
 
-    Material* sphere = new Material();
-    sphere->type = REFLECTIVE;
-    sphere->kr = 0.85;
-    sphere->ambient = Color (0.0, 0.0, 0.0, 1.0);
-    sphere->diffuse = Color (0.0, 0.0, 0.0, 1.0);
-    sphere->specular = Color(0.3, 0.3, 0.3, 1.0);
-    Object * s1 = new Sphere(Point(400.0,130.0,320.0),120.0);
-    
+
+
+	Material * diffuseBlue = new Material();
+	diffuseBlue->type = DIFFUSE;
+	diffuseBlue->kr = 1.0;
+	diffuseBlue->kd = 0.8;
+	diffuseBlue->kt = 0.0;
+	diffuseBlue->ambient = Color(0.4, 0.4, 0.6, 1.0);
+	diffuseBlue->diffuse = Color(0.6, 0.6, 0.6, 1.0);
+	diffuseBlue->specular = Color(0.9, 0.9, 0.9, 1.0);
+
+
+	Material * diffuseGreen = new Material();
+	diffuseGreen->type = DIFFUSE;
+	diffuseGreen->kr = 1.0;
+	diffuseGreen->kd = 0.8;
+	diffuseGreen->kt = 0.0;
+	diffuseGreen->ambient = Color(0.5, 0.7, 0.5, 1.0);
+	diffuseGreen->diffuse = Color(0.9, 0.9, 0.9, 1.0);
+	diffuseGreen->specular = Color(1.0, 1.0, 1.0, 1.0);
+
+
+	Material * diffusePurple = new Material();
+	diffusePurple->type = DIFFUSE;
+	diffusePurple->kr = 1.0;
+	diffusePurple->kd = 0.3;
+	diffusePurple->kt = 0.0;
+	diffusePurple->ambient = Color(0.6, 0.3, 0.8, 1.0);
+	diffusePurple->diffuse = Color(0.6, 0.6, 0.6, 1.0);
+	diffusePurple->specular = Color(0.9, 0.9, 0.9, 1.0);
+
+
+	Material * diffuseWhite = new Material();
+	diffuseWhite->type = DIFFUSE;
+	diffuseWhite->kr = 1.0;
+	diffuseWhite->kd = 0.6;
+	diffuseWhite->kt = 0.0;
+	diffuseWhite->ambient = Color(0.6, 0.6, 0.6, 1.0);
+	diffuseWhite->diffuse = Color(0.6, 0.6, 0.6, 1.0);
+	diffuseWhite->specular = Color(0.6, 0.6, 0.6, 1.0);
+
+
+	Material * translucent = new Material();
+	translucent->type = REFRACTIVE;
+	translucent->kr = 0.0;
+	translucent->kd = 0.0;
+	translucent->kt = 0.9;
+	translucent->ambient = Color(0.0, 0.0, 0.0, 1.0);
+	translucent->diffuse = Color(0.0, 0.0, 0.0, 1.0);
+	translucent->specular = Color(0.0, 0.0, 0.0, 1.0);
+
+
+	Material * translucentBlue = new Material();
+	translucentBlue->type = REFRACTIVE;
+	translucentBlue->kr = 0.1;
+	translucentBlue->kd = 0.2;
+	translucentBlue->kt = 0.9;
+	translucentBlue->ambient = Color(0.1, 0.1, 0.3, 1.0);
+	translucentBlue->diffuse = Color(0.0, 0.0, 0.0, 1.0);
+	translucentBlue->specular = Color(0.3, 0.3, 0.3, 1.0);
+
+
+
+
+
+
     // Make points for square
     Point p1 = Point(0,0,0);
     Point p2 = Point(550,0,0);
@@ -128,80 +175,59 @@ Scene * Scene::initTestScene(int N){
     Point p6 = Point(560,550,560);
     Point p7 = Point(0,550,560);
     Point p8 = Point(0,550,0);
-    // make normals for triangle
+    // make normals for triangles
     Point n1 = Point(0.0,-1.0,0.0);
     Point n2 = Point(0.0,1.0,0.0);
     Point n3 = Point(1.0,0.0,0.0);
     Point n4 = Point(-1.0,0.0,0.0);
     Point n5 = Point(0.0,0.0,-1.0);
 	
-	s1->setMaterial(sphere);
-	s1->id = 0;
-	s1->name = "sphere";	
+
+	Object * s1 = new Sphere(Point(400.0, 130.0, 320.0), 120.0);
+	s1->setMaterial(diffuseBlue);
     ret->addObject(s1);
     
 	// Add in bottom square
     Object * t1 = new Triangle(p1,p3,p2,n2);
     Object * t2 = new Triangle(p4,p2,p3,n2);
-    t1->setMaterial(rightBig);
-    t2->setMaterial(rightBig);
-    t1->id = 1;
-    t2->id = 1;
-    t1->name = "bigBot";
-    t2->name = "bigBot";
+    t1->setMaterial(diffuseBlue);
+    t2->setMaterial(diffuseBlue);
     ret->addObject(t1);
     ret->addObject(t2);
-
-    //~ // Add in top square
-    //~ t1 = new Triangle(p5,p7,p6,n1);
-    //~ t2 = new Triangle(p8,p7,p5,n1);
-    //~ t1->setMaterial(diffRedABlueD);
-    //~ t2->setMaterial(diffRedABlueD);
 
     // Add in left square
     t1 = new Triangle(p3,p1,p8,n3);
     t2 = new Triangle(p3,p8,p7,n3);
-    t1->setMaterial(leftBig);
-    t2->setMaterial(leftBig);
-    t1->id = 2;
-    t2->id = 2;
-    t1->name = "bigLeft";
-    t2->name = "bigLeft";
+    t1->setMaterial(diffusePurple);
+    t2->setMaterial(diffusePurple);
     ret->addObject(t1);
     ret->addObject(t2);
 
     // Add in back square
     t1 = new Triangle(p4,p3,p7,n5);
     t2 = new Triangle(p4,p7,p6,n5);
-    t1->setMaterial(backBig);
-    t2->setMaterial(backBig);
-    t1->id = 3;
-    t2->id = 3;
-    t1->name = "bigBack";
-    t2->name = "bigBack";
+    t1->setMaterial(perfectMirror);
+    t2->setMaterial(perfectMirror);
     ret->addObject(t1);
     ret->addObject(t2);
 
     // Add in right square
-    t1 = new Triangle(p4,p2,p5,n4*-1);
+    t1 = new Triangle(p4,p2,p5,n4);
     t2 = new Triangle(p4,p5,p6,n4);
-    t1->setMaterial(rightBig);
-    t2->setMaterial(rightBig);
-    t1->id = 4;
-    t2->id = 4;
-    t1->name = "bigRight";
-    t2->name = "bigRight";
-    ret->addObject(t1);
+    t1->setMaterial(diffuseWhite);
+    t2->setMaterial(diffuseWhite);
+	t1->id = 1;
+	t2->id = 1;
+	ret->addObject(t1);
     ret->addObject(t2);
 
-    // Add light sources
-//    ret->addLight(Point(185.0,2000.0,169.0));
-    ret->addLight(Point(400.0,2000.0,320.0));
-    ret->addLight(Point(-100.0, 2000.0, -500.0));
-    
+	// Add light sources
+	ret->addLight(Point(400.0, 2000.0, 320.0));
+	ret->addLight(Point(400.0, 100.0, -200.0));
 
-    // set Camera location
-    ret->setCamera(new Point(278,273,-500));
+	// set Camera location
+	ret->setCamera(new Point(278, 273, -500));
+
 
     // Now we will add in smaller box
     Point v1 = Point(100,165,65);
@@ -225,32 +251,32 @@ Scene * Scene::initTestScene(int N){
     // top
     t1 = new Triangle(v2,v3,v1,no1);
     t2 = new Triangle(v4,v1,v3,no1);
-    ret->addObject(t1);
+	t1->setMaterial(translucentBlue);
+	t2->setMaterial(translucentBlue);
+	ret->addObject(t1);
     ret->addObject(t2);
-    t1->setMaterial(test1);
-    t2->setMaterial(test1);
     
 	// right
     t1 = new Triangle(v5,v7,v4,no4);
     t2 = new Triangle(v5,v7,v8,no4);
-    t1->setMaterial(test1);
-    t2->setMaterial(test1);
+    t1->setMaterial(translucentBlue);
+    t2->setMaterial(translucentBlue);
     ret->addObject(t1);
     ret->addObject(t2);
     
     // front
     t1 = new Triangle(v9,v10,v4,no4);
     t2 = new Triangle(v9,v4,v5,no4);
-    t1->setMaterial(test1);
-    t2->setMaterial(test1);
+    t1->setMaterial(translucentBlue);
+    t2->setMaterial(translucentBlue);
     ret->addObject(t1);
     ret->addObject(t2);
     
     // left
     t1 = new Triangle(v11,v2,v10,no4);
     t2 = new Triangle(v11,v2,v9,no4);
-    t1->setMaterial(test1);
-    t2->setMaterial(test1);
+    t1->setMaterial(translucentBlue);
+    t2->setMaterial(translucentBlue);
     ret->addObject(t1);
     ret->addObject(t2);
         
@@ -258,10 +284,198 @@ Scene * Scene::initTestScene(int N){
     // back
     t1 = new Triangle(v8,v7,v2,no4);
     t2 = new Triangle(v8,v2,v11,no4);
-    t1->setMaterial(test1);
-    t2->setMaterial(test1);
+    t1->setMaterial(translucentBlue);
+    t2->setMaterial(translucentBlue);
     ret->addObject(t1);
     ret->addObject(t2);
     
     return ret;
+}
+
+
+
+
+
+
+
+// A test scene based on description handed out with the assignment.
+// Please modify material properties as necessary to test your ray tracer.
+Scene * Scene::initCustomScene(int W, int H, double FOV, Point * lookat, Point * position) {
+
+	//// make new scene with up vector, direction vector and fov
+	Scene * ret = new Scene(new Point(0.0, 1.0, 0), lookat, FOV, W, H);
+
+	ret->addLight(Point(-1000.0, 1500.0, -5000.0));
+	ret->addLight(Point(4000.0, 2000.0, -5000.0));
+
+	//	ret->setCamera(new Point(1500, 1000, -3000));
+	//	ret->setCamera(new Point(1500, 1000, -3000));
+	ret->setCamera(position);
+
+
+	// Material Properties
+
+	Material * perfectMirror = new Material();
+	perfectMirror->type = REFLECTIVE;
+	perfectMirror->kr = 0.7;
+	perfectMirror->kd = 0.0;
+	perfectMirror->kt = 0.0;
+	perfectMirror->ambient = Color(0.0, 0.0, 0.0, 1.0);
+	perfectMirror->diffuse = Color(0.0, 0.0, 0.0, 1.0);
+	perfectMirror->specular = Color(0.5, 0.5, 0.5, 1.0);
+
+	Material * mirror = new Material();
+	mirror->type = REFLECTIVE;
+	mirror->kr = 1.0;
+	mirror->kd = 0.1;
+	mirror->kt = 0.0;
+	mirror->ambient = Color(0.5, 0.5, 0.8, 1.0);
+	mirror->diffuse = Color(0.5, 0.5, 0.5, 1.0);
+	mirror->specular = Color(0.6, 0.6, 0.7, 1.0);
+	
+	Material * diffuseBlue = new Material();
+	diffuseBlue->type = DIFFUSE;
+	diffuseBlue->kr = 0.9;
+	diffuseBlue->kd = 0.8;
+	diffuseBlue->kt = 0.0;
+	diffuseBlue->ambient = Color(0.4, 0.4, 0.6, 1.0);
+	diffuseBlue->diffuse = Color(0.6, 0.6, 0.6, 1.0);
+	diffuseBlue->specular = Color(0.6, 0.6, 0.6, 1.0);
+	
+	Material * diffuseGreen = new Material();
+	diffuseGreen->type = DIFFUSE;
+	diffuseGreen->kr = 0.9;
+	diffuseGreen->kd = 0.8;
+	diffuseGreen->kt = 0.0;
+	diffuseGreen->ambient = Color(0.5, 0.7, 0.5, 1.0);
+	diffuseGreen->diffuse = Color(0.6, 0.6, 0.6, 1.0);
+	diffuseGreen->specular = Color(0.6, 0.6, 0.6, 1.0);
+	
+	Material * diffusePurple = new Material();
+	diffusePurple->type = DIFFUSE;
+	diffusePurple->kr = 0.8;
+	diffusePurple->kd = 0.3;
+	diffusePurple->kt = 0.0;
+	diffusePurple->ambient = Color(0.6, 0.3, 0.8, 1.0);
+	diffusePurple->diffuse = Color(0.6, 0.6, 0.6, 1.0);
+	diffusePurple->specular = Color(0.8, 0.8, 0.8, 1.0);
+	
+	Material * diffuseWhite = new Material();
+	diffuseWhite->type = DIFFUSE;
+	diffuseWhite->kr = 0.8;
+	diffuseWhite->kd = 0.6;
+	diffuseWhite->kt = 0.0;
+	diffuseWhite->ambient = Color(0.6, 0.6, 0.6, 1.0);
+	diffuseWhite->diffuse = Color(0.6, 0.6, 0.6, 1.0);
+	diffuseWhite->specular = Color(0.6, 0.6, 0.6, 1.0);
+	
+	Material * translucent = new Material();
+	translucent->type = REFRACTIVE;
+	translucent->kr = 0.0;
+	translucent->kd = 0.0;
+	translucent->kt = 0.9;
+	translucent->ambient = Color(0.0, 0.0, 0.0, 1.0);
+	translucent->diffuse = Color(0.0, 0.0, 0.0, 1.0);
+	translucent->specular = Color(0.0, 0.0, 0.0, 1.0);
+	
+	Material * translucentBlue = new Material();
+	translucentBlue->type = REFRACTIVE;
+	translucentBlue->kr = 0.1;
+	translucentBlue->kd = 0.2;
+	translucentBlue->kt = 0.9;
+	translucentBlue->ambient = Color(0.1, 0.1, 0.3, 1.0);
+	translucentBlue->diffuse = Color(0.0, 0.0, 0.0, 1.0);
+	translucentBlue->specular = Color(0.3, 0.3, 0.3, 1.0);
+
+	
+
+	//// Geometry
+	Object * t1;
+	Object * t2;
+
+	Point p1;
+	Point p2;
+	Point p3;
+	Point p4;
+
+	Point n1;
+	Point n2;
+
+	// Floor Pts
+	p1 = Point(-1000, 0, 1000);
+	p2 = Point(-1000, 0, -1000);
+	p3 = Point(1000, 0, 1000);
+	p4 = Point(1000, 0, -1000);
+
+	n1 = Point(0.0, 1.0, 0.0);
+
+	// Add in floor
+	t1 = new Triangle(p1, p2, p3, n1);
+	t2 = new Triangle(p2, p3, p4, n1);
+	t1->setMaterial(diffuseBlue);
+	t2->setMaterial(diffuseBlue);
+	t1->id = 10;
+	t2->id = 10;
+	t1->name = "floor";
+	t2->name = "floor";
+	ret->addObject(t1);
+	ret->addObject(t2);
+
+
+	// Far mirror Pts
+	p1 = Point(-1000, 200, +1200);		// Bot Left
+	p2 = Point(-1000, 1200, +1000);		// Top Left
+	p3 = Point(300, +200, +1650);		// Bot Right
+	p4 = Point(300, +1200, +1450);		// Top Right
+
+
+	// Mirror normal
+	n1 = (p2 - p1).cross(p3 - p1);
+	n1.normalize();
+
+	n2 = Point(0.0, 0.0, 1.0);
+
+	// Add Far Mirror
+	t1 = new Triangle(p1, p2, p3, n1);
+	t2 = new Triangle(p2, p3, p4, n1);
+	t1->setMaterial(perfectMirror);
+	t2->setMaterial(perfectMirror);
+	ret->addObject(t1);
+	ret->addObject(t2);
+
+
+	// Far Purple Wall Pts
+	p1 = Point(-2000, -2000, 2000);	// Bot Left
+	p2 = Point(+2000, -2000, 2000);	// Bot Right
+	p3 = Point(-2000, +2000, 2000);	// Top Left
+	p4 = Point(+2000, +2000, 2000);	// Top Right
+
+									// Add Far purple wall
+	t1 = new Triangle(p1, p2, p3, n2);
+	t2 = new Triangle(p2, p3, p4, n2);
+	t1->setMaterial(diffusePurple);
+	t2->setMaterial(diffusePurple);
+	ret->addObject(t1);
+	ret->addObject(t2);
+	
+	
+	Object * s1;
+	
+	s1 = new Sphere(Point(1000.0, 1000.0, 1000.0), 400.0);
+	s1->setMaterial(diffuseGreen);
+	ret->addObject(s1);
+
+	s1 = new Sphere(Point(-250.0, 250.0, -1000.0), 100.0);
+	s1->setMaterial(diffuseBlue);
+	ret->addObject(s1);
+	
+	s1 = new Sphere(Point(1250.0, 250.0, -1050.0), 300.0);
+	s1->setMaterial(translucent);
+	ret->addObject(s1);
+
+	s1 = new Sphere(Point(-2000.0, 1500.0, 800.0), 800.0);
+	s1->setMaterial(perfectMirror);
+	ret->addObject(s1);
+
+	return ret;
 }

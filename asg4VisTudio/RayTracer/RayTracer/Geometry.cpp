@@ -86,7 +86,6 @@ Ray Ray::refract(Point normal, Point intersection, double ki, double kt)
 
 	Point i = direction * ratioRefraction;
 
-
 	Point t = i + normal * ((ratioRefraction * cos(PI * thetaInc / 180.0)) - sqrt(1 - pow(sin(PI * thetaOutB / 180.0), 2)));
 	Point p = Point(intersection.x, intersection.y, intersection.z);
 

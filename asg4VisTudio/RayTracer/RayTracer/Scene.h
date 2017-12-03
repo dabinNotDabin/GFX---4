@@ -17,10 +17,12 @@ class Scene {
     // the location of the camera
     Point C;
 
-    // Currently this ray tracer only supports square N x N images
-    // where N is the number of pixels in one direction.
-    int N;
     
+    int W;
+	int H;
+	double AR;
+
+	double recip;
 
     // A container to hold objects
     vector<Object *> objects;
@@ -35,7 +37,7 @@ public:
     Scene(){
         background = Color(0.0,0.0,0.0,1.0);   
     }
-    Scene(Point*,Point*,double,int);
+    Scene(Point*,Point*,double,int,int);
     void startIteration(void);
     Object * getNextObject(void);
     Point getNextLight(void);
@@ -45,7 +47,9 @@ public:
     void setUpVector(Point *);
     void setDirectionVector(Point *);
     Ray makeRay(double,double);
-    static Scene* initTestScene(int);
+    static Scene* initTestScene(int, int, double, Point*, Point*);
+	static Scene* initCustomScene(int, int, double, Point*, Point*);
+
     // can add your own scene here.
     
 };

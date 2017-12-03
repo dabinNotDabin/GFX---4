@@ -49,13 +49,13 @@ Color RayTracer::trace(Ray r, int depth)
 	if (obj->getMaterial()->type == REFLECTIVE)
 	{
 		r = r.reflect(obj->getNormal(intersection), intersection);
-		rad = rad + trace(r, depth + 1) * obj->getMaterial()->kr;
+		rad = rad + trace(r, depth + 1);
 	}
 	else if (obj->getMaterial()->type == REFRACTIVE)
 	{
 		//Kr * reflectionColor + (1 - Kr) * refractionColor;
 		r = r.refract(obj->getNormal(intersection), intersection, 1.0, obj->getMaterial()->kt);
-		rad = rad + trace(r, depth + 1) * obj->getMaterial()->kt;
+		rad = rad + trace(r, depth + 1);
 	}
 
 
@@ -67,8 +67,14 @@ Color RayTracer::trace(Ray r, int depth)
 // Local Phong illumination at a point.
 Color RayTracer::Phong(Point normal, Point intersection, Ray ray, Object * obj)
 {
-    Color lightVal = obj->getMaterial()->ambient;
 	Material * mat = obj->getMaterial();
+	Color lightVal = mat->ambient;
+
+	if (obj->id == 10)
+		lightVal = mat->getAmbient(intersection);
+	if (obj->id == 1)
+		lightVal = mat->getAmbient(intersection);
+
 
     normal.normalize();
 	Point lightPos;
@@ -84,35 +90,27 @@ Color RayTracer::Phong(Point normal, Point intersection, Ray ray, Object * obj)
 
 		Object * o = intersect(Ray(intersection, lightDir));
 
-		if (o == nullptr)
+		if (o == nullptr || o->getMaterial()->type == REFRACTIVE)
 		{
-			diffuseIntensity = min (abs((lightDir * normal)), 1.0);
-			
+			double refractiveDull = 1.0;
+			//if (o != nullptr)
+			//	refractiveDull = o->getMaterial()->kt;
+
+			diffuseIntensity = min (abs((lightDir * normal)) * mat->kd * refractiveDull, 1.0);
+
 			Point viewDir = *(scene->camera) - intersection;
+			viewDir.normalize();
 			Point halfAngle = (lightDir + viewDir);
 			halfAngle.normalize();
 
-			double specWeight = min (abs(halfAngle * normal), 1.0);
-			specularIntensity = pow(specWeight, 100.0);
+			double specWeight = min(abs(halfAngle * normal), 1.0);
+			specularIntensity = pow(specWeight, 100.0) * mat->kr;
 		}
 
 		double lightScalar =  1.0 / (double)(scene->lights.size());
         lightVal = lightVal + (((mat->diffuse * diffuseIntensity) + (mat->specular * specularIntensity)) * lightScalar);
     }
 
-/*
-	if (mat->type == REFLECTIVE)
-	{
-		ray = reflected Ray;
-		lightVal = lightVal + trace(ray, );
-	}
-
-	if (mat->type == REFRACTIVE)
-	{
-		ray = refracted Ray;
-		rad = rad + trace(ray);
-	}
-*/
 	lightVal.clamp(1.0);
   
 	return lightVal;

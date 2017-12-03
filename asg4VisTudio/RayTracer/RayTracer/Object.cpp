@@ -95,24 +95,29 @@ Point Sphere::getIntersection(Ray r)
 	}
 	else
 	{
-//		cout << "Ray origin, direction: " << r.origin.x << "," << r.origin.y << "," << r.origin.z << " -> " << r.direction.x << "," << r.direction.y << "," << r.direction.z << endl;
-
 		d1 = -a + sqrt(det);
 		d2 = -a - sqrt(det);
 		
-		Point one = r.origin + r.direction * d1;
-		Point two = r.origin + r.direction * d2;
+		Point p = Point::Infinite();
 
-		if (((one - r.origin) * r.direction) < 0 + EPS)  
-			one = Point::Infinite();
-		
-		if (((two - r.origin) * r.direction) < 0 + EPS)  
-			two = Point::Infinite();
-
-		if (one.length() <= two.length())
-			return one;
+		if (d1 < EPS && d2 < EPS)
+			return p;
+		else if (d1 < EPS)
+			p = r.origin + r.direction * d2;
+		else if (d2 < EPS)
+			p = r.origin + r.direction * d1;
 		else
-			return two;
+		{
+			if (d1 < d2)
+				p = r.origin + r.direction * d1;
+			else
+				p = r.origin + r.direction * d2;
+		}
+
+		if (((p - r.origin) * r.direction) < EPS)  
+			p = Point::Infinite();
+				
+		return p;
 	}
 
 }

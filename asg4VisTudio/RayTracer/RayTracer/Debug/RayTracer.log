@@ -1,28 +1,47 @@
 ﻿  WritePixels.cpp
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\material.h(45): warning C4305: 'argument': truncation from 'double' to 'float'
   Scene.cpp
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(72): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(73): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(74): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(79): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(80): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(81): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(86): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(87): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(88): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(93): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(94): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(95): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(103): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(104): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(105): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(110): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(112): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\scene.cpp(119): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\material.h(45): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(89): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(98): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(99): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(100): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(109): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(110): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(111): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(119): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(120): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(129): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(130): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(131): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(139): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(140): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(141): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(159): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(161): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(565): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(567): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(576): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(577): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(578): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(586): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(587): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(588): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(596): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(597): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(598): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(606): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(607): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(608): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(626): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\scene.cpp(628): warning C4305: 'argument': truncation from 'double' to 'float'
   RayTracer.cpp
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\material.h(45): warning C4305: 'argument': truncation from 'double' to 'float'
   Object.cpp
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\material.h(45): warning C4305: 'argument': truncation from 'double' to 'float'
   Geometry.cpp
   Color.cpp
-c:\uofc\cpsc453\asg4vistudio\raytracer\raytracer\color.cpp(17): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\uofc\cpsc453\gfx---4\asg4vistudio\raytracer\raytracer\color.cpp(17): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   Generating Code...
-  RayTracer.vcxproj -> C:\UofC\CPSC453\asg4VisTudio\RayTracer\Debug\RayTracer.exe
-  RayTracer.vcxproj -> C:\UofC\CPSC453\asg4VisTudio\RayTracer\Debug\RayTracer.pdb (Partial PDB)
+  RayTracer.vcxproj -> C:\UofC\CPSC453\GFX---4\asg4VisTudio\RayTracer\Debug\RayTracer.exe
+  RayTracer.vcxproj -> C:\UofC\CPSC453\GFX---4\asg4VisTudio\RayTracer\Debug\RayTracer.pdb (Partial PDB)
